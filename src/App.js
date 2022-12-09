@@ -1,27 +1,25 @@
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
-import { ToastContainer} from 'react-toastify';
-import {useState} from 'react'
+import { ToastContainer } from "react-toastify";
 
-import 'react-toastify/dist/ReactToastify.css';
-
+import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from "./contexts/userContext";
 
 function App() {
-  const [user, setUser] = useState({})
-
   return (
-    <div >
+    <div>
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
 
+          <Route path="/Home" element={<Home />} />
+        </Routes>
+      </UserProvider>
 
-      <Routes>
-        <Route path="/" element={<Login  user={user}  setUser={setUser} />}/>
-        <Route path="/Register" element={<Register/>}/>
-        <Route path="/Home" element={<Home user={user}  setUser={setUser}/>}/>
-      </Routes>
-
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

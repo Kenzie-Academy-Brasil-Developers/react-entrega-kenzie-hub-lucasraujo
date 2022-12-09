@@ -84,12 +84,12 @@ export const GlobalStyle = createGlobalStyle`
 .inputForm{
    background-color: var(--Grey-2);
    padding:0.625rem 1.375rem;
-   
    border-radius: 0.25rem;
    border:none;
    outline: none;
    font-size: 1rem;
    font-family: 'Inter', sans-serif;
+   color: white;
 }
 
 .inputForm:focus{

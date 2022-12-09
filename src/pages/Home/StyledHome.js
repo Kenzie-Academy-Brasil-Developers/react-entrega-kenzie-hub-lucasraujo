@@ -5,11 +5,15 @@ export const   StyledHome = styled.div`
 
 background-color: var(--Grey-4);
 width: 100%;
-height: 100vh;
+min-height: 100vh;
+
 
 .contentHome{
 
     padding: 2rem 15%;
+    @media (max-width:500px) {
+        padding: 2rem 3%;
+    }
 }
 
 

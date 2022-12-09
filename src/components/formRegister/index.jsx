@@ -3,14 +3,15 @@ import { StyledFonts } from "../styles/StyledFonts";
 import { StyledFormRegister } from "./styledFormRegister";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Api } from "../Api/Request";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/userContext";
+
 
 
 export function FormRegister() {
+  let {resFormRegister} = useContext(UserContext)
 
-    const navigate = useNavigate()
+
   const formShema = yup.object().shape({
     name: yup.string().required("Este campo e obrigatorio"),
     email: yup
@@ -39,39 +40,18 @@ export function FormRegister() {
   const {
     register,
     handleSubmit,
-    formState: { errors }, reset
+    formState: { errors }
   } = useForm({
     resolver: yupResolver(formShema),
   });
 
-  async function resForm(data) {
-   delete data.passwordConfirm
 
 
-   try {
-
-      await Api.post("users",data)
-      toast.success("Conta criada com sucesso!",{
-        autoClose:2000
-      })
-
-      navigate("/")
-
-   } catch (er) {
-    console.log(er)
-    toast.error("Ops! Algo deu errado",{
-      autoClose:2000
-    })
-
-   }
    
-    reset()
-    
-  }
   
 
   return (
-    <StyledFormRegister noValidate onSubmit={handleSubmit(resForm)}>
+    <StyledFormRegister noValidate onSubmit={handleSubmit(resFormRegister)}>
       <StyledFonts tag="h2" textStyle="Title1" color="--Grey-0">
         Crie sua conta
       </StyledFonts>

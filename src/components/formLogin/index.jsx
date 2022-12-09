@@ -1,73 +1,33 @@
 import { StyledFonts } from "../styles/StyledFonts";
 import {useForm} from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup"
 import { StyledFormLogin } from "./StyledFormLogin";
-import { Api } from "../Api/Request";
-import { toast } from "react-toastify";
-import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/userContext";
 
-export function FormLogin ({user, setUser}){
+export function FormLogin (){
+
+    const { formResLogin, loading }= useContext(UserContext)
     
-    const [loading , setLoading] = useState(false)
-    const navigate = useNavigate()
 
     const formSchema = yup.object().shape({
         email:yup.string().required("Este campo e obrigatorio"),
         password:yup.string().required("Este campo e obrigatorio")
     })
     
-    const {register, handleSubmit, formState:{ errors }, reset  }=useForm({
+    const {register, handleSubmit, formState:{ errors }  }=useForm({
         
         resolver: yupResolver(formSchema),
     })
 
-    async function formRes(data){
-        
-        reset()
-
-        try {
-
-            setLoading(true)
-
-           let resLogin = await Api.post("sessions",data)
-            
-            toast.success("Login aprovado ",{
-                autoClose:2000
-            })
-
-            localStorage.setItem("TOKEN", resLogin.data.token)
-            localStorage.setItem("USER_ID", resLogin.data.user.id)
-           
-           navigate("/Home")
-
-            
-            
-        } catch (er) {
-
-            console.log(er)
-            toast.error("verifique login e senha e tente novamente",{
-                autoClose:2000
-            })
-
-            
-        }finally{
-            setLoading(false)
-        }
-
-
-    }
-    
-    
-    
     const hasErrors = Object.keys(errors).length !== 0
-
 
     return(
 
-        <StyledFormLogin noValidate onSubmit={handleSubmit(formRes)}>
+        <StyledFormLogin noValidate onSubmit={handleSubmit(formResLogin)}>
 
             <StyledFonts tag="h2" textStyle="Title1" color="--Grey-0">Login</StyledFonts>
 
